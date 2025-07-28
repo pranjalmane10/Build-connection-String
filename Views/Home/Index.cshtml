@@ -1,0 +1,41 @@
+﻿@model DatabaseConnect.Models.ConnectionInputs
+@{
+    ViewData["Title"] = "Test Database Connection";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<div class="container mt-5">
+    <h2 class="mb-4">Upload Config File to Test DB Connection</h2>
+
+    <form asp-action="Index" asp-controller="Home" method="post" enctype="multipart/form-data" class="border p-4 rounded bg-light shadow-sm">
+        <div class="mb-3">
+            <label for="configFile" class="form-label">Select Configuration File (.json)</label>
+            <input type="file" name="configFile" id="configFile" class="form-control" onchange="showFileName()" />
+            <div class="form-text text-success mt-2" id="fileStatus" style="display: none;"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Test Connection</button>
+    </form>
+
+    @if (Model != null)
+    {
+        <div class="alert mt-4 @(Model.success ? "alert-success" : "alert-danger")">
+            <strong>@Model.Message</strong>
+        </div>
+    }
+</div>
+
+<script>
+    function showFileName() {
+        const input = document.getElementById("configFile");
+        const status = document.getElementById("fileStatus");
+        if (input.files.length > 0) {
+            status.innerText = "File uploaded: " + input.files[0].name;
+            status.style.display = "block";
+        } else {
+            status.innerText = "";
+            status.style.display = "none";
+        }
+    }
+</script>
